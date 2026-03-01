@@ -48,16 +48,15 @@ async def help(message:Message):
     await message.answer(" Привет! На 2026 год прием с 20 июня. Выберите факультет:",reply_markup=inline)
 @dp.callback_query()
 async def accept(callback:types.CallbackQuery):
-    if callback.data in ["button1", "button2", "button3", "button4"]:
+    if callback.data=="button1" or callback.data=="button2" or callback.data=="button3" or callback.data=="button4":
         await callback.message.answer(
             """📄 Для поступления необходимы:
-
-        • Аттестат о среднем образовании  
-        • Сертификат ЕНТ (минимум 65 баллов)  
-        • Паспорт или удостоверение личности  
-        • 6 фотографий 3x4  
-        • Медицинская справка формы 086-У  
-        • Дипломы и сертификаты (олимпиады, курсы — для льгот)
+• Аттестат о среднем образовании  
+• Сертификат ЕНТ (минимум 65 баллов)  
+• Паспорт или удостоверение личности  
+• 6 фотографий 3x4  
+• Медицинская справка формы 086-У  
+• Дипломы и сертификаты (олимпиады, курсы — для льгот)
         """,
                 reply_markup=inline2
             )
