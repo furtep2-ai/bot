@@ -50,7 +50,7 @@ async def help(message:Message):
 async def accept(callback:types.CallbackQuery):
     if callback.data=="button1" or callback.data=="button2" or callback.data=="button3" or callback.data=="button4":
         await callback.message.answer(
-            "Интересные разделы",
+            "Нужны: аттестат, сертификат ЕНТ (мин. 65 баллов), паспорт. Загрузите файлы или ссылка: aogu.edu.kz/abiturient",
                 reply_markup=inline2
             )
     elif callback.data=="btn2":
@@ -97,6 +97,7 @@ if __name__=="__main__":
     print("Бот запущен и готов к работе")
     asyncio.run(main())
     
+
 
 
 
