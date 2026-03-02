@@ -5,13 +5,15 @@ from aiogram.filters import Command
 from aiogram import types
 import asyncio
 import os
-
+import fastapi 
+from fastapi import FastAPI , Request
 TOKEN = os.getenv("BOT_TOKEN")
+WEBHOOK_PATH = "/webhook"
+WEBHOOK_URL = f"https://bot-lsmy.onrender.com{WEBHOOK_PATH}"
 
-bot=Bot(token=TOKEN)
-
-
-dp=Dispatcher()
+bot = Bot(token=TOKEN)
+dp = Dispatcher(bot)
+app = FastAPI()
 
 inline=InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='IT' , callback_data='button1')],
@@ -83,21 +85,20 @@ async def accept(callback:types.CallbackQuery):
     await callback.answer()
     
 
-async def set_commands(bot):
-    commands=[
-        BotCommand(command="start",description="Здравствуйте узнать информацию о поступлении используйте"),
-        BotCommand(command="help",description=" Привет! На 2026 год прием с 20 июня. Выберите факультет:")
-    ]
-    await bot.set_my_commands(commands)
-async def main():
-    await set_commands(bot)
-    await dp.start_polling(bot)
+@app.on_event("startup")
+async def on_startup():
+    await bot.set_webhook(WEBHOOK_URL)
 
-if __name__=="__main__":
-    print("Бот запущен и готов к работе")
-    asyncio.run(main())
+@app.on_event("shutdown")
+async def on_shutdown():
+    await bot.delete_webhook()
+
+@app.post(WEBHOOK_PATH)
+async def telegram_webhook(request: Request):
+    update = types.Update(**await request.json())
+    await dp.process_update(update)
+    return {"ok": True}
     
-
 
 
 
