@@ -29,7 +29,7 @@ async def telegram_webhook(request: Request):
     await dp.feed_update(bot, update)
     return {"ok": True}
     
-@app.get("/",methods=["GET","HEAD"])
+@app.api_route("/",methods=["GET","HEAD"])
 async def ping():
     return {"status":"alive"}
 
@@ -102,6 +102,7 @@ async def accept(callback:types.CallbackQuery):
         await callback.message.answer("Да, через egov.kz портал")
     await callback.answer()
     
+
 
 
 
