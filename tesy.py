@@ -12,7 +12,7 @@ WEBHOOK_PATH = "/webhook"
 WEBHOOK_URL = f"https://bot-lsmy.onrender.com{WEBHOOK_PATH}"
 
 bot = Bot(token=TOKEN)
-dp = Dispatcher(bot)
+dp = Dispatcher()
 app = FastAPI()
 
 inline=InlineKeyboardMarkup(inline_keyboard=[
@@ -95,10 +95,11 @@ async def on_shutdown():
 
 @app.post(WEBHOOK_PATH)
 async def telegram_webhook(request: Request):
-    update = types.Update(**await request.json())
-    await dp.process_update(update)
+    update = types.Update.model_validate(await request.json())
+    await dp.feed_update(bot, update)
     return {"ok": True}
     
+
 
 
 
