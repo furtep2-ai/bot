@@ -15,6 +15,24 @@ bot = Bot(token=TOKEN)
 dp = Dispatcher()
 app = FastAPI()
 
+@app.on_event("startup")
+async def on_startup():
+    await bot.set_webhook(WEBHOOK_URL)
+
+@app.on_event("shutdown")
+async def on_shutdown():
+    await bot.delete_webhook()
+
+@app.post(WEBHOOK_PATH)
+async def telegram_webhook(request: Request):
+    update = types.Update.model_validate(await request.json())
+    await dp.feed_update(bot, update)
+    return {"ok": True}
+    
+@app.get("/")
+async def ping():
+    return {"status":"alive"}
+
 inline=InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text='IT' , callback_data='button1')],
     [InlineKeyboardButton(text='Педагогика' , callback_data='button2')],
@@ -85,23 +103,7 @@ async def accept(callback:types.CallbackQuery):
     await callback.answer()
     
 
-@app.on_event("startup")
-async def on_startup():
-    await bot.set_webhook(WEBHOOK_URL)
 
-@app.on_event("shutdown")
-async def on_shutdown():
-    await bot.delete_webhook()
-
-@app.post(WEBHOOK_PATH)
-async def telegram_webhook(request: Request):
-    update = types.Update.model_validate(await request.json())
-    await dp.feed_update(bot, update)
-    return {"ok": True}
-    
-@app.get("/")
-async def ping():
-    return {"status":"alive"}
 
 
 
