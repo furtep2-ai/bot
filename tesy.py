@@ -56,7 +56,7 @@ async def accept(callback:types.CallbackQuery):
     elif callback.data=="btn2":
         await callback.message.answer("Бакалавриат — 1,200,000 тг/год (гранты по конкурсу)",reply_markup=inline3)
     elif callback.data=="btn1":
-        """📄 Для поступления необходимы:
+        await callback.message.answer"""📄 Для поступления необходимы:
 • Аттестат о среднем образовании  
 • Сертификат ЕНТ (минимум 65 баллов)  
 • Паспорт или удостоверение личности  
@@ -97,4 +97,5 @@ if __name__=="__main__":
     print("Бот запущен и готов к работе")
     asyncio.run(main())
     
+
 
