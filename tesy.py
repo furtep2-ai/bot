@@ -50,7 +50,13 @@ async def help(message:Message):
 async def accept(callback:types.CallbackQuery):
     if callback.data=="button1" or callback.data=="button2" or callback.data=="button3" or callback.data=="button4":
         await callback.message.answer(
-            """📄 Для поступления необходимы:
+            "Интересные разделы",
+                reply_markup=inline2
+            )
+    elif callback.data=="btn2":
+        await callback.message.answer("Бакалавриат — 1,200,000 тг/год (гранты по конкурсу)",reply_markup=inline3)
+    elif callback.data=="btn1":
+        """📄 Для поступления необходимы:
 • Аттестат о среднем образовании  
 • Сертификат ЕНТ (минимум 65 баллов)  
 • Паспорт или удостоверение личности  
@@ -58,17 +64,13 @@ async def accept(callback:types.CallbackQuery):
 • Медицинская справка формы 086-У  
 • Дипломы и сертификаты (олимпиады, курсы — для льгот)
         """,
-                reply_markup=inline2
-            )
-    if callback.data=="btn1" or callback.data=="btn2":
-        await callback.message.answer("Бакалавриат — 1,200,000 тг/год (гранты по конкурсу)",reply_markup=inline3)
 
-    if callback.data=="yes" or callback.data=="no":
+    elif callback.data=="yes" or callback.data=="no":
         await callback.message.answer("Конец")
-    if callback.data=="btn3":
+    elif callback.data=="btn3":
         await callback.message.answer("Часто задаваемые вопросы:",
         reply_markup=inline4)
-    if callback.data=="faq1":
+    elif callback.data=="faq1":
         await callback.message.answer("20 июня — результаты")
     elif callback.data=="faq2":
         await callback.message.answer("Да, конкурс на 30% мест")
@@ -95,3 +97,4 @@ if __name__=="__main__":
     print("Бот запущен и готов к работе")
     asyncio.run(main())
     
+
